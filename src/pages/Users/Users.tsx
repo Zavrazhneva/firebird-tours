@@ -1,22 +1,17 @@
 import React from 'react';
 import { selectUsers, selectUsersLoading } from '../../store/features/users/redusers';
 import { useSelector } from 'react-redux';
-import { Spinner } from '../Spinner/Spinner';
+import { Spinner } from '../../components/Spinner/Spinner';
+import { UsersTable } from './UsersTable';
 
 export const Users = () => {
 
   const { users } = useSelector(selectUsers);
   const usersLoading = useSelector(selectUsersLoading);
 
-  if (usersLoading) {
-    return <Spinner />;
-  }
-
-  return (
-    <ul>
-      {users && users.map(item => <li>
-        {item.username}
-      </li>)}
-    </ul>
-  );
+  return <>
+    {usersLoading && <Spinner />}
+    {users && !usersLoading && <UsersTable users={users} />}
+    {/*todo add error component*/}
+  </>;
 };

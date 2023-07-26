@@ -1,0 +1,20 @@
+@import "../../main"
+
+table
+  border-collapse: collapse
+  width: 100%
+
+.table th, td
+  padding: 5px
+  border: 1px solid $light-gray-10
+
+.table tbody tr:hover
+  background: $light-gray-5
+  cursor: pointer
+
+.button
+  margin: auto
+
+@media (max-width: $layout-breakpoint-mobile)
+  .table tr
+    font-size: 12px
