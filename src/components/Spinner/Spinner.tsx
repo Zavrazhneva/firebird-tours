@@ -1,6 +1,6 @@
-import React, { FC } from 'react';
+import React, { type FC } from 'react';
 import s from './Spinner.sass';
 
-export const Spinner = () => {
+export const Spinner: FC = () => {
   return <div className={s.spinner} />;
 };

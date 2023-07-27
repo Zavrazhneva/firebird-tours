@@ -1,5 +1,5 @@
-import { AppThunk } from '../../store';
-import axios, { AxiosError } from 'axios';
+import { type AppThunk } from '../../store';
+import axios from 'axios';
 import * as actions from './actions';
 
 export const getUsers = (): AppThunk => async (dispatch) => {
@@ -11,7 +11,7 @@ export const getUsers = (): AppThunk => async (dispatch) => {
     );
 
     dispatch(actions.getUsersSuccess(res.data));
-  } catch (e: AxiosError) {
+  } catch (e: Error) {
     dispatch(actions.getUsersFail());
   }
 };

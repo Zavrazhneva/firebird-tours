@@ -1,37 +1,33 @@
-import React, { FC, useMemo } from 'react';
-import { User } from '../../models/users';
+import React, { type FC, useMemo } from 'react';
+import { type User } from '../../models/users';
 import {
-  ColumnDef,
+  type AccessorColumnDef,
+  type ColumnDef,
   createColumnHelper, flexRender, getCoreRowModel, useReactTable,
 } from '@tanstack/react-table';
 import { ActionButton } from '../../components/ActionButton/ActionButton';
 import Delete from '../../icons/Delete';
 import s from './UsersTable.sass';
+import { TextWithHighlight } from '../../components/TextWithHighlight/TextWithHighlight';
 
 export interface UsersTableProps {
-  users: Array<User>;
+  users: User[];
 }
+
+const getColumnData = (id: string): AccessorColumnDef => ({
+  id,
+  cell: info => <TextWithHighlight text={info.getValue()} />,
+  header: () => <span>{id.toUpperCase()}</span>,
+});
 
 export const UsersTable: FC<UsersTableProps> = ({ users }) => {
   const columnHelper = createColumnHelper<User>();
 
   const columns: Array<ColumnDef<User>> = useMemo(() => {
     return [
-      columnHelper.accessor(row => row.name, {
-        id: 'name',
-        cell: info => <i>{info.getValue()}</i>,
-        header: () => <span>Name</span>,
-      }),
-      columnHelper.accessor(row => row.username, {
-        id: 'username',
-        cell: info => <i>{info.getValue()}</i>,
-        header: () => <span>Username</span>,
-      }),
-      columnHelper.accessor(row => row.email, {
-        id: 'email',
-        cell: info => <i>{info.getValue()}</i>,
-        header: () => <span>Email</span>,
-      }),
+      columnHelper.accessor(row => row.name, getColumnData('name')),
+      columnHelper.accessor(row => row.username, getColumnData('username')),
+      columnHelper.accessor(row => row.email, getColumnData('email')),
       columnHelper.accessor((row) => row, {
         id: 'delete',
         cell: () => <ActionButton className={s.button} onClick={() => null}><Delete /></ActionButton>,

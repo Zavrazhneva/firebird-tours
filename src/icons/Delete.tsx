@@ -1,5 +1,5 @@
-import React, { FC } from 'react';
-import { IconProps } from '../models/icon';
+import React, { type FC } from 'react';
+import { type IconProps } from '../models/icon';
 
 const Delete: FC<IconProps> = (props) => (
   <svg
