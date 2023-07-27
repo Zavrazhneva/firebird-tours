@@ -1,13 +1,13 @@
-import React, { useEffect } from 'react';
+import React, { type FC, useEffect } from 'react';
 import { useDispatch } from 'react-redux';
 import { getUsers } from '../../store/features/users/thunks';
-import { Users } from '../../pages/Users/Users';
+import { UsersPage } from '../../pages/Users/UsersPage';
 
-export const UsersContainer = () => {
+export const UsersContainer: FC = () => {
   const dispatch = useDispatch();
   useEffect(() => {
     dispatch(getUsers());
   }, []);
 
-  return <Users />;
+  return <UsersPage />;
 };
