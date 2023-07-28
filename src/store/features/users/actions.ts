@@ -34,5 +34,5 @@ export const deleteUser = (userId: User['id']): AnyAction => ({
 })
 
 export const resetUsers = (): AnyAction => ({
-    type: RESET_USERS
+    type: RESET_USERS,
 })

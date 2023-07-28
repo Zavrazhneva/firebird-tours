@@ -1,25 +1,23 @@
-import React, { type FC, type ReactElement, useMemo } from 'react'
+import React, { type FC } from 'react'
 import { Modal } from '../../../components/Modal/Modal'
 import { ModalOverlay } from '../../../components/Modal/ModalOverlay'
-import { type User } from '../../../models/users'
+import { type LocalUser } from '../../../models/users'
 import s from './UserInfoModal.sass'
 import { UserInfoItem } from './UserInfoItem'
 
 export interface UserInfoModalProps {
-    user: User
+    user: LocalUser
     onClose: () => void
 }
 
 export const UserInfoModal: FC<UserInfoModalProps> = ({ user, onClose }) => {
-    const content = useMemo((): ReactElement | null => {
-        return Object.keys(user).map((item: keyof User) => (
-            <UserInfoItem
-                key={item}
-                filedName={item}
-                info={user[item]}
-            />
-        ))
-    }, [user])
+    const content = Object.entries(user).map(([key, value]) => (
+        <UserInfoItem
+            key={key}
+            filedName={key}
+            info={value}
+        />
+    ))
 
     return (
         <ModalOverlay onClose={onClose}>

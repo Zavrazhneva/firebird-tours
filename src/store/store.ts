@@ -4,9 +4,13 @@ import {
     type AnyAction,
     compose,
     applyMiddleware,
-    type Store,
 } from 'redux'
-import UserReducers, { type UsersState } from './features/users/redusers'
+import {
+    useDispatch,
+    useSelector,
+    type TypedUseSelectorHook,
+} from 'react-redux'
+import UserReducers from './features/users/redusers'
 import thunk, { type ThunkAction } from 'redux-thunk'
 
 declare global {
@@ -15,9 +19,10 @@ declare global {
     }
 }
 
-export interface RootState {
-    users: UsersState
-}
+export type AppDispatch = ReturnType<typeof configureStore>['dispatch']
+export type RootState = ReturnType<
+    ReturnType<typeof configureStore>['getState']
+>
 
 export type AppThunk<Return = void> = ThunkAction<
     Return,
@@ -26,13 +31,17 @@ export type AppThunk<Return = void> = ThunkAction<
     AnyAction
 >
 
-const combinedReducers = combineReducers<RootState>({
-    users: UserReducers,
+const combinedReducers = combineReducers({
+    usersData: UserReducers,
 })
 
 const composeEnhancer = window.__REDUX_DEVTOOLS_EXTENSION_COMPOSE__ ?? compose
 
-const configureStore = (): Store =>
+// eslint-disable-next-line
+const configureStore = () =>
     createStore(combinedReducers, composeEnhancer(applyMiddleware(thunk)))
 
 export default configureStore
+type DispatchFunc = () => AppDispatch
+export const useAppDispatch: DispatchFunc = useDispatch
+export const useAppSelector: TypedUseSelectorHook<RootState> = useSelector

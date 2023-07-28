@@ -3,7 +3,8 @@ import {
     DELETE_USER,
     GET_USERS,
     GET_USERS_FAIL,
-    GET_USERS_SUCCESS, RESET_USERS,
+    GET_USERS_SUCCESS,
+    RESET_USERS,
     UPDATE_USERS_QUERY,
 } from './actions'
 import { type RootState } from '../../store'
@@ -12,16 +13,18 @@ import { getFilteredUsers } from './utils'
 
 export interface UsersState {
     searchQuery: string
-    users: User[] | null
-    originalUsers: User[] | null
+    users: User[]
+    originalUsers: User[]
     usersLoading: boolean
+    error: boolean
 }
 
 const initialState: UsersState = {
     searchQuery: '',
-    users: null,
-    originalUsers: null,
+    users: [],
+    originalUsers: [],
     usersLoading: false,
+    error: false,
 }
 
 export default function reducer(
@@ -30,14 +33,14 @@ export default function reducer(
 ): UsersState {
     switch (action.type) {
         case RESET_USERS:
-            return  {
+            return {
                 ...state,
-                users: [...state.originalUsers]
+                users: [...state.originalUsers],
             }
         case DELETE_USER:
             return {
                 ...state,
-                users: state.users?.filter(
+                users: state.users.filter(
                     (user) => user.id !== action.payload
                 ),
             }
@@ -59,6 +62,7 @@ export default function reducer(
             return {
                 ...state,
                 usersLoading: false,
+                error: true,
             }
 
         case UPDATE_USERS_QUERY:
@@ -72,15 +76,19 @@ export default function reducer(
     }
 }
 
-export const selectUsers = (state: RootState): UsersState => state.users
+export const selectIsUsersChanged = (state: RootState): boolean =>
+    state.usersData.users.length !== state.usersData.originalUsers.length
 export const selectUsersLoading = (
     state: RootState
-): UsersState['usersLoading'] => state.users.usersLoading
+): UsersState['usersLoading'] => state.usersData.usersLoading
 export const selectSearchQuery = (
     state: RootState
-): UsersState['searchQuery'] => state.users.searchQuery
+): UsersState['searchQuery'] => state.usersData.searchQuery
 export const selectFilteredUsers = (state: RootState): User[] => {
-    const { users, searchQuery } = state.users
+    const { users, searchQuery } = state.usersData
 
-    return users === null ? [] : getFilteredUsers(users, searchQuery)
+    return  getFilteredUsers(users, searchQuery)
 }
+
+export const selectUserLoadingError = (state: RootState): boolean =>
+    state.usersData.error
