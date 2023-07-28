@@ -5,7 +5,7 @@ import { Provider } from 'react-redux'
 import configureStore from './store/store'
 
 const appRootNode = document.createElement('div')
-appRootNode.setAttribute("id", "root")
+appRootNode.setAttribute('id', 'root')
 document.body.appendChild(appRootNode)
 
 const root = createRoot(appRootNode)

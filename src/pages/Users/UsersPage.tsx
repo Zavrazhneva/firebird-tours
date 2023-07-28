@@ -10,10 +10,11 @@ import { Spinner } from '../../components/Spinner/Spinner'
 import { UsersTable } from './UsersTable'
 import { SearchInput } from '../../components/SearchInput/SearchInput'
 import s from './UsersPage.sass'
-import { updateUsersQuery } from '../../store/features/users/actions'
+import { resetUsers, updateUsersQuery } from '../../store/features/users/actions'
 import { useModalWithData } from '../../hooks'
 import { type User, userMapper } from '../../models/users'
 import { UserInfoModal } from './modals/UserInfoModal'
+import { ActionButton } from '../../components/ActionButton/ActionButton'
 
 export const UsersPage: FC = () => {
     const dispatch = useDispatch()
@@ -45,11 +46,14 @@ export const UsersPage: FC = () => {
     return (
         <div className={s.users}>
             {
+                <>
                 <SearchInput
                     className={s.search}
                     value={search}
                     handleSearch={handleSearch}
                 />
+                     <ActionButton className={s.reset} onClick={() => dispatch(resetUsers())} >Reset</ActionButton>
+                </>
             }
             <div className={s.usersPageContent}>
                 {filteredUsers.length > 0 ? (
