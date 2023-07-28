@@ -1,24 +1,23 @@
-@import "../../main"
+@import '../../main'
 
 .spinner
-  width: 32px
-  height: 32px
-  border: 5px solid $light-blue-110
-  border-bottom-color: transparent
-  border-radius: 50%
-  display: inline-block
-  box-sizing: border-box
-  animation: rotation 1s linear infinite
-  position: absolute
-  top: 50%
-  left: 50%
-  transform: translate(-50%, -50%)
-
+    width: 32px
+    height: 32px
+    border: 5px solid $light-blue-110
+    border-bottom-color: transparent
+    border-radius: 50%
+    display: inline-block
+    box-sizing: border-box
+    animation: rotation 1s linear infinite
+    position: absolute
+    top: 50%
+    left: 50%
+    transform: translate(-50%, -50%)
 
 @keyframes rotation
-  from
-    transform: rotate(0deg)
-  50%
-    transform: rotate(270deg)
-  to
-    transform: rotate(360deg)
+    from
+        transform: rotate(0deg)
+    50%
+        transform: rotate(270deg)
+    to
+        transform: rotate(360deg)

@@ -8,7 +8,8 @@
     "dev": "webpack --mode development --watch",
     "start": "webpack serve",
     "lint": "eslint \"src/**/*.{js,jsx,ts,tsx}\"",
-    "lint:fix": "eslint --fix \"src/**/*.{js,jsx,ts,tsx}\""
+    "lint:fix": "eslint --fix \"src/**/*.{js,jsx,ts,tsx}\"",
+    "format" : "prettier './src/{**/*,*}.{ts,tsx}' --write"
   },
   "devDependencies": {
     "@babel/core": "^7.22.9",
@@ -25,6 +26,7 @@
     "eslint-config-standard-with-typescript": "^37.0.0",
     "eslint-plugin-import": "^2.25.2",
     "eslint-plugin-n": "^15.0.0 || ^16.0.0 ",
+    "eslint-plugin-prettier": "5.0.0",
     "eslint-plugin-promise": "^6.0.0",
     "eslint-plugin-react": "^7.33.0",
     "html-webpack-plugin": "^5.5.3",
