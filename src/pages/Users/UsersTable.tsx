@@ -1,41 +1,40 @@
 import React, { type FC, useMemo } from 'react'
 import { type User } from '../../models/users'
 import {
-    type AccessorColumnDef,
-    type ColumnDef,
     createColumnHelper,
     flexRender,
     getCoreRowModel,
     type Row,
     useReactTable,
+    type DisplayColumnDef,
 } from '@tanstack/react-table'
-import { ActionButton } from '../../components/ActionButton/ActionButton'
-import Delete from '../../icons/Delete'
+
 import s from './UsersTable.sass'
 import { TextWithHighlight } from '../../components/TextWithHighlight/TextWithHighlight'
 import { useDispatch } from 'react-redux'
 import { deleteUser } from '../../store/features/users/actions'
+import { Button } from '../../components/Button/Button'
 
 export interface UsersTableProps {
     users: User[]
-    openUserModal: (user: User) => void
+    onRowClick: (user: User) => void
 }
 
-const getColumnData = (id: string): AccessorColumnDef => ({
+const getColumnData = (id: string): DisplayColumnDef<User, string> => ({
     id,
     cell: (info) => <TextWithHighlight text={info.getValue()} />,
     header: () => <span>{id.toUpperCase()}</span>,
 })
 
-export const UsersTable: FC<UsersTableProps> = ({ users, openUserModal }) => {
+export const UsersTable: FC<UsersTableProps> = ({ users, onRowClick }) => {
     const columnHelper = createColumnHelper<User>()
     const dispatch = useDispatch()
-    const handleUserDelete: React.MouseEventHandler = (e, row: Row<User>) => {
+    const handleUserDelete = (e: React.MouseEvent, row: Row<User>): void => {
         e.stopPropagation()
         dispatch(deleteUser(row.original.id))
     }
 
-    const columns: Array<ColumnDef<User>> = useMemo(() => {
+    const columns = useMemo(() => {
         return [
             columnHelper.accessor((row) => row.name, getColumnData('name')),
             columnHelper.accessor(
@@ -46,14 +45,14 @@ export const UsersTable: FC<UsersTableProps> = ({ users, openUserModal }) => {
             columnHelper.accessor((row) => row, {
                 id: 'delete',
                 cell: ({ row }) => (
-                    <ActionButton
+                    <Button
                         className={s.button}
                         onClick={(e) => {
                             handleUserDelete(e, row)
                         }}
                     >
-                        <Delete />
-                    </ActionButton>
+                        Delete
+                    </Button>
                 ),
             }),
         ]
@@ -88,7 +87,7 @@ export const UsersTable: FC<UsersTableProps> = ({ users, openUserModal }) => {
                     <tr
                         key={row.id}
                         onClick={() => {
-                            openUserModal(row.original)
+                            onRowClick(row.original)
                         }}
                     >
                         {row.getVisibleCells().map((cell) => (

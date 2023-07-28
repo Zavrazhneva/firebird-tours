@@ -17,7 +17,7 @@ export const SearchInput: FC<SearchInputProps> = ({
         <input
             value={value}
             className={cx(className, s.input)}
-            placeholder={placeholder ?? 'Поиск'}
+            placeholder={placeholder ?? 'Search'}
             onChange={(event) => {
                 handleSearch(event.currentTarget.value)
             }}

@@ -3,13 +3,13 @@ export interface UserAddress {
     suite: string
     city: string
     zipcode: string
-    geo?: {
+    geo: {
         lat: string
         lng: string
     }
 }
 
-export interface UserCompany {
+export interface UserCompany extends Record<string, string> {
     bs: string
     catchPhrase: string
     name: string
@@ -26,11 +26,11 @@ export interface User {
     website: string
 }
 
-interface UserNew extends Omit<User, 'id' | 'address'> {
-    address: Omit<UserAddress, 'geo'> & { geo?: string }
+export interface LocalUser extends Omit<User, 'id' | 'address'> {
+    address: Omit<UserAddress, 'geo'> & { geo: string }
 }
 
-export function userMapper({ id, address, ...rest }: User): UserNew {
+export function userMapper({ id, address, ...rest }: User): LocalUser {
     const { geo, ...restAddress } = address
 
     return {

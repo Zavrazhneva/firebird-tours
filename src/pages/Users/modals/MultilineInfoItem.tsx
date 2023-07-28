@@ -1,19 +1,22 @@
-import React, { type FC } from 'react'
-import { type UserAddress } from '../../../models/users'
+import React, { type ReactNode } from 'react'
 import s from './MultilineInfoItem.sass'
 
-export interface MultilineInfoItemProps {
-    infoItem: Record<string, string>
+export interface MultilineInfoItemProps<T = Record<string, string>> {
+    infoItem: T
 }
 
-export const MultilineInfoItem: FC<MultilineInfoItemProps> = ({ infoItem }) => {
-    return Object.keys(infoItem).map((item: keyof UserAddress) => (
+export const MultilineInfoItem = <
+    T extends Record<string, string> = Record<string, string>,
+>({
+    infoItem,
+}: MultilineInfoItemProps<T>): ReactNode => {
+    return Object.entries(infoItem).map(([key, value]) => (
         <div
             className={s.infoItem}
-            key={item}
+            key={key}
         >
-            <span>{item}: </span>
-            <span>{infoItem[item]}</span>
+            <span>{key}: </span>
+            <span>{value}</span>
         </div>
     ))
 }

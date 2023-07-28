@@ -12,3 +12,11 @@ table
 .table tbody tr:hover
     background: $light-gray-5
     cursor: pointer
+
+@media(max-width: $layout-breakpoint-mobile)
+    .table thead
+        display: none
+        
+    .table tbody tr
+        display: flex
+        flex-direction: column

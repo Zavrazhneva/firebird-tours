@@ -4,7 +4,7 @@ import s from './ModalOverlay.sass'
 import cx from 'classnames'
 
 export type McuModalOverlayProps = {
-    onClose?: (e?: MouseEvent<HTMLDivElement>) => void
+    onClose?: React.MouseEventHandler<HTMLDivElement>
     backgroundColor?: string
     container?: HTMLElement
 } & HTMLAttributes<HTMLDivElement>
@@ -28,6 +28,6 @@ export const ModalOverlay: FC<McuModalOverlayProps> = ({
         >
             {children}
         </div>,
-        container != null || document.body
+        container ?? document.body
     )
 }
