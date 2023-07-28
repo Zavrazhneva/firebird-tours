@@ -6,12 +6,15 @@ import {
     createColumnHelper,
     flexRender,
     getCoreRowModel,
+    type Row,
     useReactTable,
 } from '@tanstack/react-table'
 import { ActionButton } from '../../components/ActionButton/ActionButton'
 import Delete from '../../icons/Delete'
 import s from './UsersTable.sass'
 import { TextWithHighlight } from '../../components/TextWithHighlight/TextWithHighlight'
+import { useDispatch } from 'react-redux'
+import { deleteUser } from '../../store/features/users/actions'
 
 export interface UsersTableProps {
     users: User[]
@@ -26,6 +29,11 @@ const getColumnData = (id: string): AccessorColumnDef => ({
 
 export const UsersTable: FC<UsersTableProps> = ({ users, openUserModal }) => {
     const columnHelper = createColumnHelper<User>()
+    const dispatch = useDispatch()
+    const handleUserDelete: React.MouseEventHandler = (e, row: Row<User>) => {
+        e.stopPropagation()
+        dispatch(deleteUser(row.original.id))
+    }
 
     const columns: Array<ColumnDef<User>> = useMemo(() => {
         return [
@@ -37,10 +45,12 @@ export const UsersTable: FC<UsersTableProps> = ({ users, openUserModal }) => {
             columnHelper.accessor((row) => row.email, getColumnData('email')),
             columnHelper.accessor((row) => row, {
                 id: 'delete',
-                cell: () => (
+                cell: ({ row }) => (
                     <ActionButton
                         className={s.button}
-                        onClick={() => null}
+                        onClick={(e) => {
+                            handleUserDelete(e, row)
+                        }}
                     >
                         <Delete />
                     </ActionButton>

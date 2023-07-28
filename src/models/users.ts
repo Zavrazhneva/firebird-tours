@@ -31,7 +31,7 @@ interface UserNew extends Omit<User, 'id' | 'address'> {
 }
 
 export function userMapper({ id, address, ...rest }: User): UserNew {
-    const { geo, ...restAddress  } = address
+    const { geo, ...restAddress } = address
 
     return {
         ...rest,

@@ -1,8 +1,9 @@
 import { type AnyAction } from 'redux'
 import {
+    DELETE_USER,
     GET_USERS,
     GET_USERS_FAIL,
-    GET_USERS_SUCCESS,
+    GET_USERS_SUCCESS, RESET_USERS,
     UPDATE_USERS_QUERY,
 } from './actions'
 import { type RootState } from '../../store'
@@ -12,12 +13,14 @@ import { getFilteredUsers } from './utils'
 export interface UsersState {
     searchQuery: string
     users: User[] | null
+    originalUsers: User[] | null
     usersLoading: boolean
 }
 
 const initialState: UsersState = {
     searchQuery: '',
     users: null,
+    originalUsers: null,
     usersLoading: false,
 }
 
@@ -26,6 +29,18 @@ export default function reducer(
     action: AnyAction
 ): UsersState {
     switch (action.type) {
+        case RESET_USERS:
+            return  {
+                ...state,
+                users: [...state.originalUsers]
+            }
+        case DELETE_USER:
+            return {
+                ...state,
+                users: state.users?.filter(
+                    (user) => user.id !== action.payload
+                ),
+            }
         case GET_USERS:
             return {
                 ...state,
@@ -36,13 +51,13 @@ export default function reducer(
             return {
                 ...state,
                 users: action.payload,
+                originalUsers: [...action.payload],
                 usersLoading: false,
             }
 
         case GET_USERS_FAIL:
             return {
                 ...state,
-                users: null,
                 usersLoading: false,
             }
 
