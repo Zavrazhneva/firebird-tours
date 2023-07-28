@@ -7,6 +7,7 @@
   "scripts": {
     "dev": "webpack --mode development --watch",
     "start": "webpack serve",
+    "build": "webpack --mode production",
     "lint": "eslint \"src/**/*.{js,jsx,ts,tsx}\"",
     "lint:fix": "eslint --fix \"src/**/*.{js,jsx,ts,tsx}\"",
     "format" : "prettier './src/{**/*,*}.{ts,tsx}' --write",
